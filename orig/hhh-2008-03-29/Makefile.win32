@@ -1,0 +1,46 @@
+
+DATA_INSTALL_DIR=.
+SCORE_DIR=.
+
+LIBS = -L/usr/local/cross-tools/i386-mingw32/lib -lmingw32 -Wl,-u,_WinMain@16 -mwindows -lSDL_image -lSDL_ttf -lSDL_mixer -lSDLmain -lSDL
+CFLAGS = -I/usr/local/cross-tools/i386-mingw32/include/SDL -D_GNU_SOURCE=1 -Dmain=SDL_main -DDATA_INSTALL_DIR=\"${DATA_INSTALL_DIR}\" -DSCORE_DIR=\"${SCORE_DIR}\"
+#CFLAGS=`/usr/local/cross-tools/i386-mingw32/bin/sdl-config --cflags`
+#LIBS= -lSDL_image -lSDL_mixer -lSDL_ttf `/usr/local/cross-tools/i386-mingw32/bin/sdl-config --libs`
+CC = /usr/local/cross-tools/bin/i386-mingw32-g++
+OUT = hhh.exe
+OBJS = Level.o Animation.o AnimationFactory.o Sprite.o Player.o Ghost.o Ghost1.o Ghost2.o Ghost3.o Food.o
+
+all:	$(OBJS) main
+
+main:	pacman.cc
+	$(CC) $(OBJS) $(CFLAGS) pacman.cc $(LIBS) -o $(OUT)
+
+AnimationFactory.o:	Animation.o
+	$(CC) $(CFLAGS) -c -o AnimationFactory.o AnimationFactory.cc
+
+Animation.o:	Animation.cc
+	$(CC) $(CFLAGS) -c -o Animation.o Animation.cc
+
+Sprite.o:	Sprite.cc
+	$(CC) $(CFLAGS) -c -o Sprite.o Sprite.cc
+
+Player.o:	Player.cc
+	$(CC) $(CFLAGS) -c -o Player.o Player.cc
+
+Ghost.o:	Ghost.cc
+	$(CC) $(CFLAGS) -c -o Ghost.o Ghost.cc
+
+Ghost1.o:	Ghost1.cc Ghost.o
+	$(CC) $(CFLAGS) -c -o Ghost1.o Ghost1.cc
+
+Ghost2.o:	Ghost2.cc Ghost.o
+	$(CC) $(CFLAGS) -c -o Ghost2.o Ghost2.cc
+
+Ghost3.o: Ghost2.cc Ghost.o
+	$(CC) $(CFLAGS) -c -o Ghost3.o Ghost3.cc
+
+Food.o:	Ghost1.cc Ghost.o
+	$(CC) $(CFLAGS) -c -o Food.o Food.cc
+
+Level.o:	Level.cc
+	$(CC) $(CFLAGS) -c -o Level.o Level.cc

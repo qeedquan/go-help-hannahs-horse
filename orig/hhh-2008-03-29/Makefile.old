@@ -1,0 +1,89 @@
+LIBS = -lSDL -lSDL_image -lSDL_ttf -L/usr/X11R6/lib/ -lSDL_mixer
+CFLAGS = -I/usr/include/SDL/ -DDATA_INSTALL_DIR=\"${DATA_INSTALL_DIR}\" -DSCORE_DIR=\"${SCORE_DIR}\" -O2
+CC = g++
+OUT = hhh
+OBJS = Level.o Animation.o AnimationFactory.o Sprite.o Player.o Ghost.o Ghost1.o Ghost2.o Ghost3.o Food.o Bonus.o
+#Change this if you want the game installed elsewhere
+
+#For local install, comment the next line and uncomment the one after
+DATA_INSTALL_DIR=/usr/local/games/hhh
+#DATA_INSTALL_DIR=.
+
+#Where the binary goes (you might want /usr/bin instead)
+BIN_DIR=/usr/local/bin
+#Where the hiscore table is saved: user's home dir/.hannah
+
+#Change the comments on these next two too, if you're not planning to install
+SCORE_DIR=${HOME}/.hannah
+#SCORE_DIR=.
+
+all:	$(OBJS) main
+		
+main:	pacman.cc
+	$(CC) $(CFLAGS) -o $(OUT) $(LIBS) $(OBJS) pacman.cc
+
+Animation.o:	Animation.cc
+	$(CC) $(CFLAGS) -c -o Animation.o Animation.cc
+
+AnimationFactory.o:	AnimationFactory.cc
+	$(CC) $(CFLAGS) -c -o AnimationFactory.o AnimationFactory.cc
+
+Sprite.o:	Sprite.cc
+	$(CC) $(CFLAGS) -c -o Sprite.o Sprite.cc
+
+Player.o:	Player.cc
+	$(CC) $(CFLAGS) -c -o Player.o Player.cc
+
+Ghost.o:	Ghost.cc
+	$(CC) $(CFLAGS) -c -o Ghost.o Ghost.cc
+
+Ghost1.o:	Ghost1.cc Ghost.o
+	$(CC) $(CFLAGS) -c -o Ghost1.o Ghost1.cc
+
+Ghost2.o:	Ghost2.cc Ghost.o
+	$(CC) $(CFLAGS) -c -o Ghost2.o Ghost2.cc
+
+Ghost3.o: Ghost2.cc Ghost.o
+	$(CC) $(CFLAGS) -c -o Ghost3.o Ghost3.cc
+
+Food.o:	Ghost1.cc Ghost.o
+	$(CC) $(CFLAGS) -c -o Food.o Food.cc
+
+Bonus.o:	Bonus.cc Ghost.o
+	$(CC) $(CFLAGS) -c -o Bonus.o Bonus.cc
+
+Level.o:	Level.cc
+	$(CC) $(CFLAGS) -c -o Level.o Level.cc
+
+install:
+	install -m 0755 hhh $(BIN_DIR)
+	install -d -D -m 0755 $(DATA_INSTALL_DIR)/hannah/default $(DATA_INSTALL_DIR)/hannah/die $(DATA_INSTALL_DIR)/red/flash $(DATA_INSTALL_DIR)/red/default $(DATA_INSTALL_DIR)/pink/flash $(DATA_INSTALL_DIR)/pink/default $(DATA_INSTALL_DIR)/blue/default $(DATA_INSTALL_DIR)/blue/flash $(DATA_INSTALL_DIR)/images  $(DATA_INSTALL_DIR)/maps $(DATA_INSTALL_DIR)/sounds $(DATA_INSTALL_DIR)/carrot/default $(DATA_INSTALL_DIR)/stop/default $(SCORE_DIR)
+	install -m 0755 hannah/default/* $(DATA_INSTALL_DIR)/hannah/default
+	install -m 0755 hannah/die/* $(DATA_INSTALL_DIR)/hannah/die
+	install -m 0755 red/default/* $(DATA_INSTALL_DIR)/red/default
+	install -m 0755 red/flash/* $(DATA_INSTALL_DIR)/red/flash
+	install -m 0755 pink/default/* $(DATA_INSTALL_DIR)/pink/default
+	install -m 0755 pink/flash/* $(DATA_INSTALL_DIR)/pink/flash
+	install -m 0755 blue/default/* $(DATA_INSTALL_DIR)/blue/default
+	install -m 0755 blue/flash/* $(DATA_INSTALL_DIR)/blue/flash
+	install -m 0755 carrot/default/* $(DATA_INSTALL_DIR)/carrot/default
+	install -m 0755 stop/default/* $(DATA_INSTALL_DIR)/stop/default
+	install -m 0755 sounds/* $(DATA_INSTALL_DIR)/sounds
+	install -m 0755 images/* $(DATA_INSTALL_DIR)/images
+	install -m 0755 maps/* $(DATA_INSTALL_DIR)/maps
+	install -m 0755 *.ttf *.ogg  $(DATA_INSTALL_DIR)/
+	cp -p hiscore.dat $(SCORE_DIR)/
+
+clean:	
+	rm *.o hhh
+
+megaclean:
+	rm *.o *.cc *.h hhh
+
+love:
+	@echo "Sorry, I'm not equipped for that"
+
+war:
+	@echo "Make love, not war!"
+
+.PHONY:	install clean megaclean love war

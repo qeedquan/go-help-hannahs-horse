@@ -1,0 +1,40 @@
+Help Hannah's Horse
+-------------------
+
+Installation instructions
+-------------------------
+
+Firstly, please forgive me - I have no idea how to use autotools at the moment, I'll try that in the future.
+If you plan to install the game globally (i.e. in /usr/local/games) then you need do nothing to the Makefile
+just type:
+make
+make install
+If you just want to play from the current directory then edit the Makefile and remove the # from the start
+of the line that reads "DATA_INSTALL_DIR=/usr/local/games/hhh" and put a # in front of the line that reads
+"DATA_INSTALL_DIR=."
+Then do
+make
+
+To run the game:
+./hhh or hhh if you installed globally. Space to start.
+
+To remove all the object files do:
+make clean
+to remove everything (all source code *.o, *.cc and *.h files) do:
+make megaclean
+(You will not be able to type 'make' again to recompile if you do this)
+
+If you've chosen to install globally, you can now delete the whole source directory.
+
+Prerequisites
+-------------
+
+You will need SDL, SDL_image, SDL_mixer and SDL_ttf installed and their appropriate devel packages
+and you will also need g++ (part of the Gnu Compiler Collection). I don't know if this compiles on 
+windows as I don't have windows to test it on. The file Makefile.win32 may make a windows exe file,
+it may not, and even if it does it may not work. Windows is secondary to me.
+
+Contact
+-------
+
+Send ideas, bug reports, complaints or donations via paypal(!) to yottskry _at_ gmx _dot_ net

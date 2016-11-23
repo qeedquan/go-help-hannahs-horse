@@ -1,0 +1,7 @@
+# DONE! Implement powerpills
+# DONE! Implement collision detection for ghosts
+# DONE! (ish)Better graphics 
+Extra features - moving food, powerups / downs etc (change speed? That's easiest...). One way doors (already have one)
+
+# DONE! Next - need to reimplement the sprite class so that sprites can have different graphic/animation for each state, e.g. ghosts can flash when powerpill is active.
+Win32 makefile and confirm it works.

@@ -1,0 +1,1 @@
+Mix_OpenAudio: DirectSoundCreate: No audio device found
